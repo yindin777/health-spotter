@@ -3,7 +3,6 @@ import 'leaflet/dist/leaflet.css';
 import { Icon, LatLngTuple } from 'leaflet';
 import { useNavigate } from 'react-router-dom';
 
-// Fix for default marker icon in react-leaflet
 const defaultIcon = new Icon({
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
   iconSize: [25, 41],
@@ -18,7 +17,7 @@ interface Location {
 
 const EmergencyMap = () => {
   const navigate = useNavigate();
-  const defaultPosition: LatLngTuple = [40.7128, -74.0060];
+  const center: LatLngTuple = [40.7128, -74.0060];
   
   const emergencyLocations: Location[] = [
     { position: [40.7128, -74.0060], name: "Downtown Emergency Clinic", id: "1" },
@@ -31,10 +30,10 @@ const EmergencyMap = () => {
 
   return (
     <MapContainer 
-      defaultCenter={defaultPosition} 
+      center={center} 
       zoom={13} 
       scrollWheelZoom={false}
-      className="w-full h-[60vh] md:h-[400px] rounded-lg"
+      className="w-full h-[70vh] md:h-[400px] rounded-lg"
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -43,6 +42,7 @@ const EmergencyMap = () => {
         <Marker 
           key={index} 
           position={location.position}
+          icon={defaultIcon}
           eventHandlers={{
             click: () => handleMarkerClick(location.id)
           }}

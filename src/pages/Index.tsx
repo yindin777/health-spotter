@@ -9,28 +9,27 @@ import VoiceSearch from "@/components/VoiceSearch";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 
-const Header = () => (
-  <div className="flex justify-between items-center flex-wrap gap-4 mb-8">
-    <h1 className="text-4xl md:text-6xl font-bold text-foreground">whereis</h1>
-    <div className="flex gap-3 flex-wrap">
-      <Button variant="outline" size="lg" className="gap-2 text-lg py-6">
+const BottomMenu = () => (
+  <nav className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-lg border-t border-gray-200 p-4 z-50">
+    <div className="flex flex-wrap justify-center gap-3 max-w-screen-xl mx-auto">
+      <Button variant="outline" size="lg" className="gap-2 text-lg py-6 flex-1 md:flex-none min-w-[140px]">
         <User className="w-6 h-6" />
-        Sign In
+        <span className="text-base md:text-lg">Sign In</span>
       </Button>
-      <Button variant="outline" size="lg" className="gap-2 text-lg py-6">
+      <Button variant="outline" size="lg" className="gap-2 text-lg py-6 flex-1 md:flex-none min-w-[140px]">
         <UserPlus className="w-6 h-6" />
-        Sign Up
+        <span className="text-base md:text-lg">Sign Up</span>
       </Button>
-      <Button variant="outline" size="lg" className="gap-2 text-lg py-6">
+      <Button variant="outline" size="lg" className="gap-2 text-lg py-6 flex-1 md:flex-none min-w-[140px]">
         <Users className="w-6 h-6" />
-        For Professionals
+        <span className="text-base md:text-lg">For Professionals</span>
       </Button>
-      <Button variant="outline" size="lg" className="gap-2 text-lg py-6">
+      <Button variant="outline" size="lg" className="gap-2 text-lg py-6 flex-1 md:flex-none min-w-[140px]">
         <Building className="w-6 h-6" />
-        For Clinics
+        <span className="text-base md:text-lg">For Clinics</span>
       </Button>
     </div>
-  </div>
+  </nav>
 );
 
 const SearchBar = ({ searchQuery, setSearchQuery, useAI, setUseAI, handleSearch, handleVoiceResult }) => (
@@ -49,7 +48,7 @@ const SearchBar = ({ searchQuery, setSearchQuery, useAI, setUseAI, handleSearch,
           <Input
             type="text"
             placeholder={useAI ? "Ask me about finding healthcare providers..." : "Search for healthcare providers..."}
-            className="w-full pl-12 pr-4 h-14 text-lg rounded-xl"
+            className="w-full pl-12 pr-4 h-14 text-xl rounded-xl"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -99,9 +98,10 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primary to-background">
+    <div className="min-h-screen bg-gradient-to-b from-primary to-background pb-32">
       <main className="container mx-auto px-4 py-6 flex flex-col">
-        <Header />
+        <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-8">whereis</h1>
+        
         <SearchBar
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
@@ -132,6 +132,7 @@ const Index = () => {
           </div>
         </motion.div>
       </main>
+      <BottomMenu />
     </div>
   );
 };
