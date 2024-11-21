@@ -35,13 +35,6 @@ const BottomMenu = () => (
 const SearchBar = ({ searchQuery, setSearchQuery, useAI, setUseAI, handleSearch, handleVoiceResult }) => (
   <div className="glass-card rounded-2xl p-6 mb-8">
     <motion.div className="flex flex-col gap-4" layout>
-      <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-2">
-          <Bot className="w-6 h-6" />
-          <span className="text-xl font-medium">AI Assistant</span>
-          <Switch checked={useAI} onCheckedChange={setUseAI} className="ml-2" />
-        </div>
-      </div>
       <div className="flex items-center gap-4">
         <div className="flex-1 relative">
           <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground w-6 h-6" />
@@ -53,7 +46,13 @@ const SearchBar = ({ searchQuery, setSearchQuery, useAI, setUseAI, handleSearch,
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <VoiceSearch onResult={handleVoiceResult} />
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
+            <Bot className="w-6 h-6" />
+            <Switch checked={useAI} onCheckedChange={setUseAI} />
+          </div>
+          <VoiceSearch onResult={handleVoiceResult} />
+        </div>
         <Button onClick={handleSearch} className="bg-primary hover:bg-primary/90 h-14 px-8 text-lg">
           Search
         </Button>
