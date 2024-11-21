@@ -32,7 +32,7 @@ const EmergencyMap = () => {
   return (
     <div className="w-full h-[300px] rounded-lg overflow-hidden">
       <MapContainer 
-        defaultCenter={defaultCenter} 
+        center={defaultCenter} 
         zoom={13} 
         scrollWheelZoom={false}
         className="w-full h-full"
@@ -44,6 +44,7 @@ const EmergencyMap = () => {
           <Marker 
             key={index} 
             position={location.position}
+            icon={defaultIcon}
             eventHandlers={{
               click: () => handleMarkerClick(location.id)
             }}

@@ -52,24 +52,26 @@ const Index = () => {
           
           <div className="glass-card rounded-2xl p-4 mb-6">
             <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-2">
-                <Bot className="h-5 w-5" />
-                <span className="text-sm font-medium">AI Assistant</span>
-                <Switch checked={useAI} onCheckedChange={setUseAI} />
-              </div>
-              
-              <div className="flex items-center gap-2">
-                <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
-                  <Input
-                    type="text"
-                    placeholder={useAI ? "Ask me about finding healthcare providers..." : "Search for healthcare providers..."}
-                    className="pl-10 pr-4 h-12 text-lg"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+                <Input
+                  type="text"
+                  placeholder={useAI ? "Ask me about finding healthcare providers..." : "Search for healthcare providers..."}
+                  className="pl-10 pr-20 h-14 text-lg"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex items-center gap-2">
+                  <div className="flex items-center gap-1">
+                    <Bot className="h-4 w-4" />
+                    <Switch
+                      checked={useAI}
+                      onCheckedChange={setUseAI}
+                      className="data-[state=checked]:bg-primary"
+                    />
+                  </div>
+                  <VoiceSearch onResult={handleVoiceResult} />
                 </div>
-                <VoiceSearch onResult={handleVoiceResult} />
               </div>
             </div>
           </div>
