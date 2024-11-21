@@ -1,27 +1,38 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Icon } from 'leaflet';
-import type { LatLngExpression } from 'leaflet';
+import { Icon, LatLngExpression } from 'leaflet';
+import { useNavigate } from 'react-router-dom';
 
 // Fix for default marker icon in react-leaflet
-const icon = new Icon({
+const defaultIcon = new Icon({
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41]
 });
 
+interface Location {
+  position: LatLngExpression;
+  name: string;
+  id: string;
+}
+
 const EmergencyMap = () => {
-  // Example coordinates (can be updated based on user's location)
+  const navigate = useNavigate();
   const position: LatLngExpression = [40.7128, -74.0060];
-  const emergencyLocations = [
-    { position: [40.7128, -74.0060] as LatLngExpression, name: "Downtown Emergency Clinic" },
-    { position: [40.7580, -73.9855] as LatLngExpression, name: "Midtown Medical Center" }
+  
+  const emergencyLocations: Location[] = [
+    { position: [40.7128, -74.0060], name: "Downtown Emergency Clinic", id: "1" },
+    { position: [40.7580, -73.9855], name: "Midtown Medical Center", id: "2" }
   ];
+
+  const handleMarkerClick = (id: string) => {
+    navigate(`/professional/${id}`);
+  };
 
   return (
     <MapContainer 
-      center={position}
-      zoom={13} 
+      defaultCenter={position}
+      defaultZoom={13} 
       scrollWheelZoom={false}
       className="w-full h-full rounded-lg"
       style={{ minHeight: "300px" }}
@@ -34,7 +45,9 @@ const EmergencyMap = () => {
         <Marker 
           key={index} 
           position={location.position}
-          icon={icon}
+          eventHandlers={{
+            click: () => handleMarkerClick(location.id)
+          }}
         >
           <Popup>
             {location.name}
