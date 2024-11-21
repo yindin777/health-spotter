@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
+import EmergencyMap from "@/components/EmergencyMap";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -127,8 +128,8 @@ const Index = () => {
 
           <div className="flex-1 glass-card rounded-xl p-4 min-h-[200px] overflow-hidden">
             <h2 className="text-lg font-semibold mb-3">Emergency Slots Nearby</h2>
-            <div className="h-full bg-muted rounded-lg flex items-center justify-center">
-              <p className="text-muted-foreground">Map showing nearby available slots</p>
+            <div className="h-[300px]">
+              <EmergencyMap />
             </div>
           </div>
         </div>

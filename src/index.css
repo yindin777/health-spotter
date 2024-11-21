@@ -49,6 +49,13 @@
   animation: fade-in 0.3s ease-out;
 }
 
+/* Leaflet map styles */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
 .map-container {
   @apply w-full h-[400px] rounded-lg overflow-hidden;
 }
