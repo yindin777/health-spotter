@@ -1,20 +1,31 @@
 import { useState } from "react";
-import { MapPin, Calendar, Search, UserPlus, User, Users, Building, MessageSquare } from "lucide-react";
-import { motion } from "framer-motion";
+import { MapPin, Calendar, Search, UserPlus, User, Users, Building, MessageSquare, Bot } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import EmergencyMap from "@/components/EmergencyMap";
+import { Switch } from "@/components/ui/switch";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [useAI, setUseAI] = useState(false);
   const { toast } = useToast();
   
   const handleSearch = () => {
-    toast({
-      title: "Searching nearby providers",
-      description: "Finding available appointments in your area...",
-    });
+    if (useAI) {
+      setIsExpanded(true);
+      toast({
+        title: "AI Search",
+        description: "Processing your query with AI...",
+      });
+    } else {
+      toast({
+        title: "Searching nearby providers",
+        description: "Finding available appointments in your area...",
+      });
+    }
   };
 
   const handleBooking = (professionalName: string) => {
@@ -32,7 +43,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary to-background">
-      <main className="container mx-auto px-4 py-4 flex flex-col gap-4 h-screen">
+      <main className="container mx-auto px-4 py-4 flex flex-col gap-4">
         {/* Top Section - Header and Navigation */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -66,25 +77,53 @@ const Index = () => {
 
           {/* AI Chat Window */}
           <div className="glass-card rounded-2xl p-6 flex-grow">
-            <div className="flex items-center gap-4 h-full">
-              <MessageSquare className="w-6 h-6 text-muted-foreground" />
-              <div className="flex-1 relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Ask me about finding healthcare providers..."
-                  className="w-full pl-12 pr-4 h-14 text-lg rounded-xl"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-              <Button 
-                onClick={handleSearch}
-                className="bg-success hover:bg-success/90 h-14 px-8 text-lg"
+            <AnimatePresence>
+              <motion.div 
+                className={`flex flex-col gap-4 h-full transition-all duration-300 ${isExpanded ? 'h-[60vh]' : 'h-full'}`}
+                layout
               >
-                Search
-              </Button>
-            </div>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <Bot className="w-5 h-5" />
+                    <span className="text-sm font-medium">AI Assistant</span>
+                    <Switch
+                      checked={useAI}
+                      onCheckedChange={setUseAI}
+                      className="ml-2"
+                    />
+                  </div>
+                </div>
+                <div className="flex items-center gap-4 h-full">
+                  <MessageSquare className="w-6 h-6 text-muted-foreground" />
+                  <div className="flex-1 relative">
+                    <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
+                    <Input
+                      type="text"
+                      placeholder={useAI ? "Ask me about finding healthcare providers..." : "Search for healthcare providers..."}
+                      className="w-full pl-12 pr-4 h-14 text-lg rounded-xl"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                  </div>
+                  <Button 
+                    onClick={handleSearch}
+                    className="bg-primary hover:bg-primary/90 h-14 px-8 text-lg"
+                  >
+                    Search
+                  </Button>
+                </div>
+                {isExpanded && useAI && (
+                  <motion.div 
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="bg-white/50 rounded-lg p-4 mt-4"
+                  >
+                    <p className="text-muted-foreground">AI response will appear here...</p>
+                  </motion.div>
+                )}
+              </motion.div>
+            </AnimatePresence>
           </div>
         </motion.div>
 
@@ -115,7 +154,7 @@ const Index = () => {
                 </div>
                 <Button
                   onClick={() => handleBooking(professional.name)}
-                  className="bg-success hover:bg-success/90 text-white"
+                  className="bg-primary hover:bg-primary/90 text-white"
                 >
                   Book Now
                 </Button>
