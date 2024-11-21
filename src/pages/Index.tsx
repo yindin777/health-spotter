@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MapPin, Calendar, Search, Mic, Clock } from "lucide-react";
+import { MapPin, Calendar, Search, User } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,6 +7,10 @@ import { useToast } from "@/components/ui/use-toast";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const { toast } = useToast();
   
   const handleSearch = () => {
@@ -16,26 +20,41 @@ const Index = () => {
     });
   };
 
+  const handleAuth = () => {
+    if (!firstName || !lastName) {
+      toast({
+        title: "Required Fields Missing",
+        description: "Please enter your first and last name",
+        variant: "destructive"
+      });
+      return;
+    }
+    toast({
+      title: "Verification Sent",
+      description: "Please check your email or phone for verification code",
+    });
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primary to-background">
-      <main className="container mx-auto px-4 py-8">
+    <div className="h-screen overflow-hidden bg-gradient-to-b from-primary to-background">
+      <main className="h-full container mx-auto px-4 py-4 flex flex-col">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          className="text-center mb-6"
         >
-          <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-4">
+          <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-2">
             whereis
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-sm md:text-base text-muted-foreground">
             Find and book healthcare professionals near you, instantly
           </p>
         </motion.div>
 
-        <div className="max-w-3xl mx-auto">
-          <div className="glass-card rounded-2xl p-6 mb-8">
-            <div className="flex flex-col md:flex-row items-center gap-4 mb-6">
+        <div className="flex-1 flex flex-col gap-4 max-h-full">
+          <div className="glass-card rounded-2xl p-4">
+            <div className="flex flex-col md:flex-row items-center gap-4 mb-4">
               <div className="flex-1 relative w-full">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
                 <Input
@@ -55,54 +74,63 @@ const Index = () => {
               </Button>
             </div>
 
-            <div className="flex flex-wrap gap-4">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <div className="flex flex-wrap gap-4 text-sm">
+              <div className="flex items-center gap-2 text-muted-foreground">
                 <MapPin className="w-4 h-4" />
                 <span>Using your current location</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2 text-muted-foreground">
                 <Calendar className="w-4 h-4" />
                 <span>Available today</span>
               </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 mb-8">
-            <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
-              className="glass-card rounded-xl p-6"
-            >
-              <h2 className="text-xl font-semibold mb-4">Emergency Slots</h2>
-              <div className="space-y-4">
-                <div className="p-4 bg-warning/10 rounded-lg border border-warning/20">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-medium text-warning">New slot available!</p>
-                      <p className="text-sm text-muted-foreground">Dr. Sarah Johnson - 2:30 PM</p>
-                    </div>
-                    <Button variant="outline" size="sm" className="ml-4">
-                      <Clock className="w-4 h-4 mr-2" />
-                      Book Now
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="rounded-xl overflow-hidden h-[400px] mb-8 glass-card"
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+            className="glass-card rounded-xl p-4 flex-shrink-0"
           >
-            <div className="w-full h-full bg-muted flex items-center justify-center">
-              <p className="text-muted-foreground">Map showing nearby available slots</p>
-              {/* Map integration will be added here */}
+            <h2 className="text-lg font-semibold mb-3">Quick Authentication</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <Input
+                placeholder="First Name *"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                required
+              />
+              <Input
+                placeholder="Last Name *"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                required
+              />
+              <Input
+                type="email"
+                placeholder="Email (Optional)"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <Input
+                type="tel"
+                placeholder="Phone (Optional)"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
             </div>
+            <Button onClick={handleAuth} className="w-full md:w-auto">
+              <User className="w-4 h-4 mr-2" />
+              Verify Identity
+            </Button>
           </motion.div>
+
+          <div className="flex-1 glass-card rounded-xl p-4 min-h-[200px] overflow-hidden">
+            <h2 className="text-lg font-semibold mb-3">Emergency Slots Nearby</h2>
+            <div className="h-full bg-muted rounded-lg flex items-center justify-center">
+              <p className="text-muted-foreground">Map showing nearby available slots</p>
+            </div>
+          </div>
         </div>
       </main>
     </div>
