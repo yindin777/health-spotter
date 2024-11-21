@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MapPin, Calendar, Search, UserPlus, User, Users, Building, MessageSquare, Bot } from "lucide-react";
+import { MapPin, Calendar, Search, UserPlus, User, Users, Building, MessageSquare, Bot, Mic, MicOff } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,12 +7,69 @@ import { useToast } from "@/components/ui/use-toast";
 import EmergencyMap from "@/components/EmergencyMap";
 import { Switch } from "@/components/ui/switch";
 
+const VoiceSearch = ({ onResult }) => {
+  const [isListening, setIsListening] = useState(false);
+  const { toast } = useToast();
+
+  const startListening = () => {
+    if (!("webkitSpeechRecognition" in window)) {
+      toast({
+        title: "Voice Search Unavailable",
+        description: "Your browser doesn't support voice recognition.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const recognition = new (window as any).webkitSpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+
+    recognition.onresult = (event: any) => {
+      const text = event.results[0][0].transcript;
+      onResult(text);
+      setIsListening(false);
+    };
+
+    recognition.onerror = (event: any) => {
+      console.error("Speech recognition error", event.error);
+      setIsListening(false);
+      toast({
+        title: "Error",
+        description: "There was an error with voice recognition. Please try again.",
+        variant: "destructive",
+      });
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognition.start();
+  };
+
+  return (
+    <Button
+      variant="outline"
+      size="icon"
+      onClick={startListening}
+      className={`transition-colors ${isListening ? "bg-primary text-primary-foreground" : ""}`}
+    >
+      {isListening ? <Mic className="h-4 w-4 animate-pulse" /> : <MicOff className="h-4 w-4" />}
+    </Button>
+  );
+};
+
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
   const [useAI, setUseAI] = useState(false);
   const { toast } = useToast();
-  
+
   const handleSearch = () => {
     if (useAI) {
       setIsExpanded(true);
@@ -24,6 +81,17 @@ const Index = () => {
       toast({
         title: "Searching nearby providers",
         description: "Finding available appointments in your area...",
+      });
+    }
+  };
+
+  const handleVoiceResult = (text: string) => {
+    setSearchQuery(text);
+    if (useAI) {
+      setIsExpanded(true);
+      toast({
+        title: "Voice Query Received",
+        description: "Processing your voice query with AI...",
       });
     }
   };
@@ -45,16 +113,14 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-b from-primary to-background">
       <main className="container mx-auto px-4 py-4 flex flex-col gap-4">
         {/* Header Section */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="flex flex-col gap-4"
         >
           <div className="flex justify-between items-center flex-wrap gap-4">
-            <h1 className="text-4xl md:text-6xl font-bold text-foreground">
-              whereis
-            </h1>
+            <h1 className="text-4xl md:text-6xl font-bold text-foreground">whereis</h1>
             <div className="flex gap-2 flex-wrap">
               <Button variant="outline" size="sm" className="gap-2">
                 <User className="w-4 h-4" />
@@ -78,10 +144,7 @@ const Index = () => {
           {/* AI Search Section */}
           <div className="glass-card rounded-2xl p-4 md:p-6">
             <AnimatePresence>
-              <motion.div 
-                className="flex flex-col gap-4"
-                layout
-              >
+              <motion.div className="flex flex-col gap-4" layout>
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <Bot className="w-5 h-5" />
@@ -105,7 +168,8 @@ const Index = () => {
                       onChange={(e) => setSearchQuery(e.target.value)}
                     />
                   </div>
-                  <Button 
+                  <VoiceSearch onResult={handleVoiceResult} />
+                  <Button
                     onClick={handleSearch}
                     className="bg-primary hover:bg-primary/90 h-12 px-6 text-lg"
                   >
@@ -113,7 +177,7 @@ const Index = () => {
                   </Button>
                 </div>
                 {isExpanded && useAI && (
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
@@ -136,7 +200,7 @@ const Index = () => {
         </div>
 
         {/* Professionals List - Now Second */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.2 }}

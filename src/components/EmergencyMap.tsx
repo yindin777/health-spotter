@@ -35,16 +35,16 @@ const EmergencyMap = () => {
       zoom={13} 
       scrollWheelZoom={false}
       className="w-full h-full rounded-lg"
+      style={{ height: '100%', width: '100%' }}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attributionControl={true}
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
       {emergencyLocations.map((location, index) => (
         <Marker 
           key={index} 
           position={location.position}
-          icon={defaultIcon}
           eventHandlers={{
             click: () => handleMarkerClick(location.id)
           }}
