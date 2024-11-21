@@ -1,6 +1,6 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Icon } from 'leaflet';
+import { Icon, LatLngTuple } from 'leaflet';
 import { useNavigate } from 'react-router-dom';
 
 // Fix for default marker icon in react-leaflet
@@ -18,7 +18,7 @@ interface Location {
 
 const EmergencyMap = () => {
   const navigate = useNavigate();
-  const defaultPosition: [number, number] = [40.7128, -74.0060];
+  const defaultPosition: LatLngTuple = [40.7128, -74.0060];
   
   const emergencyLocations: Location[] = [
     { position: [40.7128, -74.0060], name: "Downtown Emergency Clinic", id: "1" },
@@ -31,7 +31,7 @@ const EmergencyMap = () => {
 
   return (
     <MapContainer 
-      center={defaultPosition} 
+      defaultCenter={defaultPosition} 
       zoom={13} 
       scrollWheelZoom={false}
       className="w-full h-full rounded-lg"
@@ -45,7 +45,6 @@ const EmergencyMap = () => {
         <Marker 
           key={index} 
           position={location.position}
-          icon={defaultIcon}
           eventHandlers={{
             click: () => handleMarkerClick(location.id)
           }}
