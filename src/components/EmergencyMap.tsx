@@ -31,20 +31,21 @@ const EmergencyMap = () => {
 
   return (
     <MapContainer 
-      defaultCenter={position}
-      defaultZoom={13} 
+      center={position}
+      zoom={13} 
       scrollWheelZoom={false}
       className="w-full h-full rounded-lg"
       style={{ minHeight: "300px" }}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        attributionControl={true}
       />
       {emergencyLocations.map((location, index) => (
         <Marker 
           key={index} 
           position={location.position}
+          icon={defaultIcon}
           eventHandlers={{
             click: () => handleMarkerClick(location.id)
           }}
