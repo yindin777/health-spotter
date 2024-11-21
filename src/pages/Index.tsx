@@ -9,56 +9,48 @@ import VoiceSearch from "@/components/VoiceSearch";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 
-const BottomMenu = () => (
-  <nav className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-lg border-t border-gray-200 p-4 z-50">
-    <div className="flex flex-wrap justify-center gap-3 max-w-screen-xl mx-auto">
-      <Button variant="outline" size="lg" className="gap-2 text-lg py-6 flex-1 md:flex-none min-w-[140px]">
+const SearchBar = ({ searchQuery, setSearchQuery, useAI, setUseAI, handleSearch, handleVoiceResult }) => (
+  <div className="glass-card rounded-2xl p-4">
+    <div className="flex items-center gap-2">
+      <div className="flex-1 relative">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+        <Input
+          type="text"
+          placeholder={useAI ? "Ask me about finding healthcare providers..." : "Search for healthcare providers..."}
+          className="w-full pl-10 pr-4 h-12 text-base rounded-xl"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
+      <div className="flex items-center gap-2">
+        <Switch checked={useAI} onCheckedChange={setUseAI} size="sm" />
+        <VoiceSearch onResult={handleVoiceResult} />
+      </div>
+    </div>
+  </div>
+);
+
+const BottomNav = () => (
+  <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-4 z-50">
+    <div className="flex justify-around items-center max-w-screen-xl mx-auto">
+      <Button variant="ghost" size="sm" className="flex flex-col items-center gap-1 h-auto py-2">
         <User className="w-6 h-6" />
-        <span className="text-base md:text-lg">Sign In</span>
+        <span className="text-xs">Sign In</span>
       </Button>
-      <Button variant="outline" size="lg" className="gap-2 text-lg py-6 flex-1 md:flex-none min-w-[140px]">
+      <Button variant="ghost" size="sm" className="flex flex-col items-center gap-1 h-auto py-2">
         <UserPlus className="w-6 h-6" />
-        <span className="text-base md:text-lg">Sign Up</span>
+        <span className="text-xs">Sign Up</span>
       </Button>
-      <Button variant="outline" size="lg" className="gap-2 text-lg py-6 flex-1 md:flex-none min-w-[140px]">
+      <Button variant="ghost" size="sm" className="flex flex-col items-center gap-1 h-auto py-2">
         <Users className="w-6 h-6" />
-        <span className="text-base md:text-lg">For Professionals</span>
+        <span className="text-xs">Professionals</span>
       </Button>
-      <Button variant="outline" size="lg" className="gap-2 text-lg py-6 flex-1 md:flex-none min-w-[140px]">
+      <Button variant="ghost" size="sm" className="flex flex-col items-center gap-1 h-auto py-2">
         <Building className="w-6 h-6" />
-        <span className="text-base md:text-lg">For Clinics</span>
+        <span className="text-xs">Clinics</span>
       </Button>
     </div>
   </nav>
-);
-
-const SearchBar = ({ searchQuery, setSearchQuery, useAI, setUseAI, handleSearch, handleVoiceResult }) => (
-  <div className="glass-card rounded-2xl p-6 mb-8">
-    <motion.div className="flex flex-col gap-4" layout>
-      <div className="flex items-center gap-4">
-        <div className="flex-1 relative">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground w-6 h-6" />
-          <Input
-            type="text"
-            placeholder={useAI ? "Ask me about finding healthcare providers..." : "Search for healthcare providers..."}
-            className="w-full pl-12 pr-4 h-14 text-xl rounded-xl"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2">
-            <Bot className="w-6 h-6" />
-            <Switch checked={useAI} onCheckedChange={setUseAI} />
-          </div>
-          <VoiceSearch onResult={handleVoiceResult} />
-        </div>
-        <Button onClick={handleSearch} className="bg-primary hover:bg-primary/90 h-14 px-8 text-lg">
-          Search
-        </Button>
-      </div>
-    </motion.div>
-  </div>
 );
 
 const Index = () => {
@@ -97,9 +89,9 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primary to-background pb-32">
-      <main className="container mx-auto px-4 py-6 flex flex-col">
-        <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-8">whereis</h1>
+    <div className="min-h-screen bg-gradient-to-b from-primary to-background pb-24">
+      <main className="container mx-auto px-4 py-4 flex flex-col gap-4">
+        <h1 className="text-3xl font-bold text-foreground mb-2">whereis</h1>
         
         <SearchBar
           searchQuery={searchQuery}
@@ -110,28 +102,28 @@ const Index = () => {
           handleVoiceResult={handleVoiceResult}
         />
         
-        <div className="glass-card rounded-xl p-6 mb-8">
-          <h2 className="text-2xl md:text-3xl font-semibold mb-6">Emergency Slots Nearby</h2>
+        <div className="glass-card rounded-xl p-4">
+          <h2 className="text-xl font-semibold mb-3">Emergency Slots Nearby</h2>
           <EmergencyMap />
         </div>
 
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="glass-card rounded-xl p-6"
+          className="glass-card rounded-xl p-4"
         >
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl md:text-3xl font-semibold">Available Healthcare Professionals</h2>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-semibold">Available Healthcare Professionals</h2>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-3">
             {nearbyProfessionals.map((professional, index) => (
               <ProfessionalCard key={index} professional={professional} />
             ))}
           </div>
         </motion.div>
       </main>
-      <BottomMenu />
+      <BottomNav />
     </div>
   );
 };

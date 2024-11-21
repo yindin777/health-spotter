@@ -16,7 +16,7 @@ interface Location {
 
 const EmergencyMap = () => {
   const navigate = useNavigate();
-  const defaultPosition: LatLngTuple = [40.7128, -74.0060];
+  const center: LatLngTuple = [40.7128, -74.0060];
   
   const emergencyLocations: Location[] = [
     { position: [40.7128, -74.0060], name: "Downtown Emergency Clinic", id: "1" },
@@ -30,19 +30,19 @@ const EmergencyMap = () => {
 
   return (
     <MapContainer 
-      defaultCenter={defaultPosition} 
+      center={center} 
       zoom={13} 
       scrollWheelZoom={false}
-      className="w-full h-[70vh] md:h-[400px] rounded-lg"
+      className="w-full h-[50vh] md:h-[400px] rounded-lg"
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
       {emergencyLocations.map((location, index) => (
         <Marker 
           key={index} 
           position={location.position}
+          icon={defaultIcon}
           eventHandlers={{
             click: () => handleMarkerClick(location.id)
           }}
