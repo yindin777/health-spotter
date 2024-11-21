@@ -47,27 +47,30 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary to-background">
       <main className="container mx-auto px-4 py-4 pb-24">
-        <h1 className="text-4xl font-bold text-foreground mb-6">whereis</h1>
-        
-        <div className="glass-card rounded-2xl p-4 mb-6">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
-              <Input
-                type="text"
-                placeholder={useAI ? "Ask me about finding healthcare providers..." : "Search for healthcare providers..."}
-                className="pl-10 pr-4"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1">
+        <div className="h-[20vh] flex flex-col justify-center">
+          <h1 className="text-4xl font-bold text-foreground mb-6">whereis</h1>
+          
+          <div className="glass-card rounded-2xl p-4 mb-6">
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center gap-2">
                 <Bot className="h-5 w-5" />
+                <span className="text-sm font-medium">AI Assistant</span>
                 <Switch checked={useAI} onCheckedChange={setUseAI} />
               </div>
-              <VoiceSearch onResult={handleVoiceResult} />
-              <Button onClick={handleSearch} className="hidden md:block">Search</Button>
+              
+              <div className="flex items-center gap-2">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+                  <Input
+                    type="text"
+                    placeholder={useAI ? "Ask me about finding healthcare providers..." : "Search for healthcare providers..."}
+                    className="pl-10 pr-4 h-12 text-lg"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
+                <VoiceSearch onResult={handleVoiceResult} />
+              </div>
             </div>
           </div>
         </div>
@@ -93,23 +96,22 @@ const Index = () => {
           </div>
         </motion.div>
 
-        <div className="flex flex-col gap-4">
-          <div className="flex gap-4">
-            <Button variant="outline" className="flex-1 justify-start gap-2">
-              <User className="h-5 w-5" /> Sign In
-            </Button>
-            <Button variant="outline" className="flex-1 justify-start gap-2">
-              <UserPlus className="h-5 w-5" /> Sign Up
-            </Button>
-          </div>
-          
-          <div className="flex gap-4">
-            <Button variant="outline" className="flex-1 justify-start gap-2">
-              <Users className="h-5 w-5" /> For Professionals
-            </Button>
-            <Button variant="outline" className="flex-1 justify-start gap-2">
-              <Building className="h-5 w-5" /> For Clinics
-            </Button>
+        <div className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-lg border-t p-4">
+          <div className="container mx-auto">
+            <div className="grid grid-cols-2 gap-4">
+              <Button variant="outline" className="w-full justify-start gap-2">
+                <User className="h-5 w-5" /> Sign In
+              </Button>
+              <Button variant="outline" className="w-full justify-start gap-2">
+                <UserPlus className="h-5 w-5" /> Sign Up
+              </Button>
+              <Button variant="outline" className="w-full justify-start gap-2">
+                <Users className="h-5 w-5" /> For Professionals
+              </Button>
+              <Button variant="outline" className="w-full justify-start gap-2">
+                <Building className="h-5 w-5" /> For Clinics
+              </Button>
+            </div>
           </div>
         </div>
       </main>

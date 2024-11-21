@@ -17,7 +17,7 @@ interface Location {
 
 const EmergencyMap = () => {
   const navigate = useNavigate();
-  const center: LatLngTuple = [40.7128, -74.0060];
+  const defaultCenter: LatLngTuple = [40.7128, -74.0060];
   
   const emergencyLocations: Location[] = [
     { position: [40.7128, -74.0060], name: "Downtown Emergency Clinic", id: "1" },
@@ -30,28 +30,29 @@ const EmergencyMap = () => {
   };
 
   return (
-    <MapContainer 
-      center={center} 
-      zoom={13} 
-      scrollWheelZoom={false}
-      className="w-full h-[300px] rounded-lg"
-    >
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      {emergencyLocations.map((location, index) => (
-        <Marker 
-          key={index} 
-          position={location.position}
-          icon={defaultIcon}
-          eventHandlers={{
-            click: () => handleMarkerClick(location.id)
-          }}
-        >
-          <Popup>{location.name}</Popup>
-        </Marker>
-      ))}
-    </MapContainer>
+    <div className="w-full h-[300px] rounded-lg overflow-hidden">
+      <MapContainer 
+        defaultCenter={defaultCenter} 
+        zoom={13} 
+        scrollWheelZoom={false}
+        className="w-full h-full"
+      >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        {emergencyLocations.map((location, index) => (
+          <Marker 
+            key={index} 
+            position={location.position}
+            eventHandlers={{
+              click: () => handleMarkerClick(location.id)
+            }}
+          >
+            <Popup>{location.name}</Popup>
+          </Marker>
+        ))}
+      </MapContainer>
+    </div>
   );
 };
 
