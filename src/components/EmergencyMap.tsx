@@ -11,7 +11,7 @@ const defaultIcon = new Icon({
 });
 
 interface Location {
-  position: [number, number];
+  position: LatLngTuple;
   name: string;
   id: string;
 }
@@ -31,26 +31,27 @@ const EmergencyMap = () => {
 
   return (
     <MapContainer 
-      defaultCenter={defaultPosition} 
+      center={defaultPosition} 
       zoom={13} 
       scrollWheelZoom={false}
       className="w-full h-full rounded-lg"
-      style={{ height: '100%', width: '100%' }}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
       {emergencyLocations.map((location, index) => (
         <Marker 
           key={index} 
           position={location.position}
+          icon={defaultIcon}
           eventHandlers={{
             click: () => handleMarkerClick(location.id)
           }}
         >
           <Popup>
-            {location.name}
+            <div className="text-base font-medium">
+              {location.name}
+            </div>
           </Popup>
         </Marker>
       ))}
