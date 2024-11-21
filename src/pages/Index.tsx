@@ -44,45 +44,45 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary to-background">
       <main className="container mx-auto px-4 py-4 flex flex-col gap-4">
-        {/* Top Section - Header and Navigation */}
+        {/* Header Section */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex flex-col gap-4 h-[30vh]"
+          className="flex flex-col gap-4"
         >
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center flex-wrap gap-4">
             <h1 className="text-4xl md:text-6xl font-bold text-foreground">
               whereis
             </h1>
-            <div className="flex gap-4">
-              <Button variant="outline" className="gap-2">
+            <div className="flex gap-2 flex-wrap">
+              <Button variant="outline" size="sm" className="gap-2">
                 <User className="w-4 h-4" />
                 Sign In
               </Button>
-              <Button variant="outline" className="gap-2">
+              <Button variant="outline" size="sm" className="gap-2">
                 <UserPlus className="w-4 h-4" />
                 Sign Up
               </Button>
-              <Button variant="outline" className="gap-2">
+              <Button variant="outline" size="sm" className="gap-2">
                 <Users className="w-4 h-4" />
                 For Professionals
               </Button>
-              <Button variant="outline" className="gap-2">
+              <Button variant="outline" size="sm" className="gap-2">
                 <Building className="w-4 h-4" />
                 For Clinics
               </Button>
             </div>
           </div>
 
-          {/* AI Chat Window */}
-          <div className="glass-card rounded-2xl p-6 flex-grow">
+          {/* AI Search Section */}
+          <div className="glass-card rounded-2xl p-4 md:p-6">
             <AnimatePresence>
               <motion.div 
-                className={`flex flex-col gap-4 h-full transition-all duration-300 ${isExpanded ? 'h-[60vh]' : 'h-full'}`}
+                className="flex flex-col gap-4"
                 layout
               >
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <Bot className="w-5 h-5" />
                     <span className="text-sm font-medium">AI Assistant</span>
@@ -93,21 +93,21 @@ const Index = () => {
                     />
                   </div>
                 </div>
-                <div className="flex items-center gap-4 h-full">
-                  <MessageSquare className="w-6 h-6 text-muted-foreground" />
+                <div className="flex items-center gap-4">
+                  <MessageSquare className="w-6 h-6 text-muted-foreground hidden md:block" />
                   <div className="flex-1 relative">
                     <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
                     <Input
                       type="text"
                       placeholder={useAI ? "Ask me about finding healthcare providers..." : "Search for healthcare providers..."}
-                      className="w-full pl-12 pr-4 h-14 text-lg rounded-xl"
+                      className="w-full pl-12 pr-4 h-12 text-lg rounded-xl"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                     />
                   </div>
                   <Button 
                     onClick={handleSearch}
-                    className="bg-primary hover:bg-primary/90 h-14 px-8 text-lg"
+                    className="bg-primary hover:bg-primary/90 h-12 px-6 text-lg"
                   >
                     Search
                   </Button>
@@ -119,7 +119,7 @@ const Index = () => {
                     exit={{ opacity: 0, height: 0 }}
                     className="bg-white/50 rounded-lg p-4 mt-4"
                   >
-                    <p className="text-muted-foreground">AI response will appear here...</p>
+                    <p className="text-muted-foreground">AI is processing your request...</p>
                   </motion.div>
                 )}
               </motion.div>
@@ -127,12 +127,20 @@ const Index = () => {
           </div>
         </motion.div>
 
-        {/* Middle Section - Available Slots */}
+        {/* Map Section - Now First */}
+        <div className="glass-card rounded-xl p-4 h-[40vh]">
+          <h2 className="text-lg font-semibold mb-3">Emergency Slots Nearby</h2>
+          <div className="h-[calc(100%-2rem)]">
+            <EmergencyMap />
+          </div>
+        </div>
+
+        {/* Professionals List - Now Second */}
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.2 }}
-          className="glass-card rounded-xl p-4 overflow-y-auto h-[30vh]"
+          className="glass-card rounded-xl p-4"
         >
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold">Available Healthcare Professionals</h2>
@@ -162,14 +170,6 @@ const Index = () => {
             ))}
           </div>
         </motion.div>
-
-        {/* Bottom Section - Map */}
-        <div className="glass-card rounded-xl p-4 h-[40vh]">
-          <h2 className="text-lg font-semibold mb-3">Emergency Slots Nearby</h2>
-          <div className="h-[calc(100%-2rem)]">
-            <EmergencyMap />
-          </div>
-        </div>
       </main>
     </div>
   );
