@@ -1,6 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Icon } from 'leaflet';
+import type { LatLngExpression } from 'leaflet';
 
 // Fix for default marker icon in react-leaflet
 const icon = new Icon({
@@ -11,16 +12,17 @@ const icon = new Icon({
 
 const EmergencyMap = () => {
   // Example coordinates (can be updated based on user's location)
-  const position: [number, number] = [40.7128, -74.0060];
+  const position: LatLngExpression = [40.7128, -74.0060];
   const emergencyLocations = [
-    { position: [40.7128, -74.0060], name: "Downtown Emergency Clinic" },
-    { position: [40.7580, -73.9855], name: "Midtown Medical Center" }
+    { position: [40.7128, -74.0060] as LatLngExpression, name: "Downtown Emergency Clinic" },
+    { position: [40.7580, -73.9855] as LatLngExpression, name: "Midtown Medical Center" }
   ];
 
   return (
     <MapContainer 
-      center={position} 
+      center={position}
       zoom={13} 
+      scrollWheelZoom={false}
       className="w-full h-full rounded-lg"
       style={{ minHeight: "300px" }}
     >
@@ -31,7 +33,7 @@ const EmergencyMap = () => {
       {emergencyLocations.map((location, index) => (
         <Marker 
           key={index} 
-          position={location.position as [number, number]}
+          position={location.position}
           icon={icon}
         >
           <Popup>
