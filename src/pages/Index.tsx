@@ -24,7 +24,6 @@ const Index = () => {
     });
   };
 
-  // Mock data for professionals
   const nearbyProfessionals = [
     { id: 1, name: "Dr. Sarah Johnson", specialty: "Family Medicine", availability: "Today" },
     { id: 2, name: "Dr. Michael Chen", specialty: "Pediatrics", availability: "Tomorrow" },
@@ -32,14 +31,14 @@ const Index = () => {
   ];
 
   return (
-    <div className="h-screen overflow-hidden bg-gradient-to-b from-primary to-background">
-      <main className="h-full container mx-auto px-4 py-4 flex flex-col gap-4">
+    <div className="min-h-screen bg-gradient-to-b from-primary to-background">
+      <main className="container mx-auto px-4 py-4 flex flex-col gap-4 h-screen">
         {/* Top Section - Header and Navigation */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex flex-col gap-4"
+          className="flex flex-col gap-4 h-[30vh]"
         >
           <div className="flex justify-between items-center">
             <h1 className="text-4xl md:text-6xl font-bold text-foreground">
@@ -66,8 +65,8 @@ const Index = () => {
           </div>
 
           {/* AI Chat Window */}
-          <div className="glass-card rounded-2xl p-6">
-            <div className="flex items-center gap-4 mb-4">
+          <div className="glass-card rounded-2xl p-6 flex-grow">
+            <div className="flex items-center gap-4 h-full">
               <MessageSquare className="w-6 h-6 text-muted-foreground" />
               <div className="flex-1 relative">
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
@@ -94,7 +93,7 @@ const Index = () => {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.2 }}
-          className="flex-1 glass-card rounded-xl p-4 overflow-y-auto"
+          className="glass-card rounded-xl p-4 overflow-y-auto h-[30vh]"
         >
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold">Available Healthcare Professionals</h2>
@@ -126,9 +125,9 @@ const Index = () => {
         </motion.div>
 
         {/* Bottom Section - Map */}
-        <div className="h-[300px] glass-card rounded-xl p-4 overflow-hidden">
+        <div className="glass-card rounded-xl p-4 h-[40vh]">
           <h2 className="text-lg font-semibold mb-3">Emergency Slots Nearby</h2>
-          <div className="h-full">
+          <div className="h-[calc(100%-2rem)]">
             <EmergencyMap />
           </div>
         </div>
