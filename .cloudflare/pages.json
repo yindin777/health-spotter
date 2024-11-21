@@ -8,6 +8,10 @@
   },
   "routes": [
     {
+      "pattern": "/api/*",
+      "script": "api/[[path]].js"
+    },
+    {
       "pattern": "/*",
       "script": "dist/index.js"
     }
