@@ -1,6 +1,6 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Icon, LatLngExpression } from 'leaflet';
+import { Icon } from 'leaflet';
 import { useNavigate } from 'react-router-dom';
 
 // Fix for default marker icon in react-leaflet
@@ -11,14 +11,14 @@ const defaultIcon = new Icon({
 });
 
 interface Location {
-  position: LatLngExpression;
+  position: [number, number];
   name: string;
   id: string;
 }
 
 const EmergencyMap = () => {
   const navigate = useNavigate();
-  const defaultPosition: LatLngExpression = [40.7128, -74.0060];
+  const defaultPosition: [number, number] = [40.7128, -74.0060];
   
   const emergencyLocations: Location[] = [
     { position: [40.7128, -74.0060], name: "Downtown Emergency Clinic", id: "1" },
@@ -31,7 +31,7 @@ const EmergencyMap = () => {
 
   return (
     <MapContainer 
-      center={defaultPosition} 
+      defaultCenter={defaultPosition} 
       zoom={13} 
       scrollWheelZoom={false}
       className="w-full h-full rounded-lg"
@@ -39,12 +39,13 @@ const EmergencyMap = () => {
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        attributionUrl='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
       {emergencyLocations.map((location, index) => (
         <Marker 
           key={index} 
           position={location.position}
+          icon={defaultIcon}
           eventHandlers={{
             click: () => handleMarkerClick(location.id)
           }}
