@@ -17,7 +17,7 @@ interface Location {
 
 const EmergencyMap = () => {
   const navigate = useNavigate();
-  const defaultCenter: LatLngTuple = [40.7128, -74.0060];
+  const center: LatLngTuple = [40.7128, -74.0060];
   
   const emergencyLocations: Location[] = [
     { position: [40.7128, -74.0060], name: "Downtown Emergency Clinic", id: "1" },
@@ -31,7 +31,7 @@ const EmergencyMap = () => {
 
   return (
     <MapContainer 
-      defaultCenter={defaultCenter} 
+      center={center} 
       zoom={13} 
       scrollWheelZoom={false}
       className="w-full h-[300px] rounded-lg"
@@ -43,6 +43,7 @@ const EmergencyMap = () => {
         <Marker 
           key={index} 
           position={location.position}
+          icon={defaultIcon}
           eventHandlers={{
             click: () => handleMarkerClick(location.id)
           }}
