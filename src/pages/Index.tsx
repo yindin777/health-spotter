@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MapPin, Calendar, Search, User } from "lucide-react";
+import { MapPin, Calendar, Search, UserPlus } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,10 +8,6 @@ import EmergencyMap from "@/components/EmergencyMap";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
   const { toast } = useToast();
   
   const handleSearch = () => {
@@ -21,20 +17,19 @@ const Index = () => {
     });
   };
 
-  const handleAuth = () => {
-    if (!firstName || !lastName) {
-      toast({
-        title: "Required Fields Missing",
-        description: "Please enter your first and last name",
-        variant: "destructive"
-      });
-      return;
-    }
+  const handleBooking = (professionalName: string) => {
     toast({
-      title: "Verification Sent",
-      description: "Please check your email or phone for verification code",
+      title: "Booking Appointment",
+      description: `Initiating booking process with ${professionalName}...`,
     });
   };
+
+  // Mock data for professionals - in a real app, this would come from an API
+  const nearbyProfessionals = [
+    { id: 1, name: "Dr. Sarah Johnson", specialty: "Family Medicine", availability: "Today" },
+    { id: 2, name: "Dr. Michael Chen", specialty: "Pediatrics", availability: "Tomorrow" },
+    { id: 3, name: "Dr. Emily Williams", specialty: "Dentistry", availability: "Today" },
+  ];
 
   return (
     <div className="h-screen overflow-hidden bg-gradient-to-b from-primary to-background">
@@ -54,23 +49,24 @@ const Index = () => {
         </motion.div>
 
         <div className="flex-1 flex flex-col gap-4 max-h-full">
-          <div className="glass-card rounded-2xl p-4">
+          {/* AI Chat-style Search Bar */}
+          <div className="glass-card rounded-2xl p-6">
             <div className="flex flex-col md:flex-row items-center gap-4 mb-4">
               <div className="flex-1 relative w-full">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
                 <Input
                   type="text"
-                  placeholder="Search for doctors, specialists, clinics..."
-                  className="w-full pl-10 pr-4"
+                  placeholder="Ask me about finding healthcare providers..."
+                  className="w-full pl-12 pr-4 h-14 text-lg rounded-xl"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
               <Button 
                 onClick={handleSearch}
-                className="w-full md:w-auto bg-success hover:bg-success/90"
+                className="w-full md:w-auto bg-success hover:bg-success/90 h-14 px-8 text-lg"
               >
-                <Search className="w-4 h-4 mr-2" />
+                <Search className="w-5 h-5 mr-2" />
                 Search
               </Button>
             </div>
@@ -87,43 +83,41 @@ const Index = () => {
             </div>
           </div>
 
+          {/* Nearby Professionals List */}
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
             className="glass-card rounded-xl p-4 flex-shrink-0"
           >
-            <h2 className="text-lg font-semibold mb-3">Quick Authentication</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-              <Input
-                placeholder="First Name *"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                required
-              />
-              <Input
-                placeholder="Last Name *"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                required
-              />
-              <Input
-                type="email"
-                placeholder="Email (Optional)"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <Input
-                type="tel"
-                placeholder="Phone (Optional)"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-              />
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-semibold">Available Healthcare Professionals</h2>
+              <Button variant="outline" className="gap-2">
+                <UserPlus className="w-4 h-4" />
+                Sign Up
+              </Button>
             </div>
-            <Button onClick={handleAuth} className="w-full md:w-auto">
-              <User className="w-4 h-4 mr-2" />
-              Verify Identity
-            </Button>
+            <div className="space-y-3">
+              {nearbyProfessionals.map((professional) => (
+                <div key={professional.id} className="flex items-center justify-between p-3 bg-white/50 rounded-lg">
+                  <div>
+                    <h3 className="font-medium">{professional.name}</h3>
+                    <p className="text-sm text-muted-foreground">{professional.specialty}</p>
+                    <div className="flex items-center gap-2 text-sm text-success">
+                      <Calendar className="w-3 h-3" />
+                      <span>Available {professional.availability}</span>
+                    </div>
+                  </div>
+                  <Button
+                    onClick={() => handleBooking(professional.name)}
+                    variant="outline"
+                    className="bg-success hover:bg-success/90 text-white border-none"
+                  >
+                    Book Now
+                  </Button>
+                </div>
+              ))}
+            </div>
           </motion.div>
 
           <div className="flex-1 glass-card rounded-xl p-4 min-h-[200px] overflow-hidden">
