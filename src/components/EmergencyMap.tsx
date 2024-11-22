@@ -32,10 +32,10 @@ const EmergencyMap = () => {
   return (
     <div className="w-full h-[300px] rounded-lg overflow-hidden">
       <MapContainer 
-        center={defaultCenter}
+        className="w-full h-full"
         zoom={13} 
         scrollWheelZoom={false}
-        className="w-full h-full"
+        defaultCenter={defaultCenter}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -44,7 +44,6 @@ const EmergencyMap = () => {
           <Marker 
             key={index} 
             position={location.position}
-            icon={defaultIcon}
             eventHandlers={{
               click: () => handleMarkerClick(location.id)
             }}
