@@ -1,6 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { LatLngTuple } from 'leaflet';
 import { useToast } from '@/components/ui/use-toast';
+import 'leaflet/dist/leaflet.css';
 
 const EmergencyMap = () => {
   const { toast } = useToast();
@@ -21,18 +22,17 @@ const EmergencyMap = () => {
   return (
     <div className="w-full h-[300px] rounded-lg overflow-hidden">
       <MapContainer 
-        center={defaultCenter}
+        className="w-full h-full"
         zoom={13} 
         scrollWheelZoom={false}
-        className="w-full h-full"
+        center={defaultCenter}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
-        {emergencyLocations.map((location, index) => (
+        {emergencyLocations.map((location) => (
           <Marker 
-            key={index} 
+            key={location.id}
             position={location.position}
             eventHandlers={{
               click: () => handleMarkerClick(location.id)

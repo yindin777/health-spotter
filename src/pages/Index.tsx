@@ -1,4 +1,4 @@
-import { Search, User, UserPlus, Users, Building, Bot } from "lucide-react";
+import { Search, User, UserPlus, Bot } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -100,18 +100,12 @@ const Index = () => {
 
         <div className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-lg border-t p-4">
           <div className="container mx-auto">
-            <div className="grid grid-cols-2 gap-4">
-              <Button variant="outline" className="w-full justify-start gap-2">
+            <div className="flex justify-center gap-4">
+              <Button variant="outline" className="flex items-center gap-2">
                 <User className="h-5 w-5" /> Sign In
               </Button>
-              <Button variant="outline" className="w-full justify-start gap-2">
+              <Button variant="outline" className="flex items-center gap-2">
                 <UserPlus className="h-5 w-5" /> Sign Up
-              </Button>
-              <Button variant="outline" className="w-full justify-start gap-2">
-                <Users className="h-5 w-5" /> For Professionals
-              </Button>
-              <Button variant="outline" className="w-full justify-start gap-2">
-                <Building className="h-5 w-5" /> For Clinics
               </Button>
             </div>
           </div>
