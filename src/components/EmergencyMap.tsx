@@ -14,20 +14,21 @@ const EmergencyMap = () => {
 
   const handleMarkerClick = (id: number) => {
     toast({
-      title: "Emergency Slot Selected",
-      description: `You've selected emergency location ${id}. Redirecting to booking...`,
+      title: "Emergency Location Selected",
+      description: `Viewing details for location ${id}`,
     });
   };
 
   return (
-    <div className="w-full h-[300px] rounded-lg overflow-hidden">
+    <div className="map-container">
       <MapContainer 
-        className="w-full h-full"
+        center={defaultCenter}
         zoom={13} 
         scrollWheelZoom={false}
-        center={defaultCenter}
+        style={{ height: '100%', width: '100%' }}
       >
         <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {emergencyLocations.map((location) => (
