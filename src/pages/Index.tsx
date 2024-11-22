@@ -46,12 +46,12 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary to-background">
-      <main className="container mx-auto px-4 py-2">
-        <div className="h-[10vh] flex flex-col justify-center">
-          <h1 className="text-4xl font-bold text-foreground mb-4">whereis</h1>
+      <main className="container mx-auto px-4">
+        <div className="pt-2">
+          <h1 className="text-4xl font-bold text-foreground mb-2">whereis</h1>
           
-          <div className="glass-card rounded-2xl p-4 mb-4 w-[80%] mx-auto">
-            <div className="flex flex-col gap-4">
+          <div className="glass-card rounded-2xl p-4 mb-4 w-[90%] mx-auto">
+            <div className="flex flex-col gap-2">
               <div className="relative w-full">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
                 <Input
@@ -62,13 +62,13 @@ const Index = () => {
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
-              <div className="flex justify-center items-center gap-4">
-                <div className="flex items-center gap-2">
+              <div className="flex justify-center items-center gap-2">
+                <div className="flex items-center gap-1">
                   <Bot className="h-4 w-4" />
                   <Switch
                     checked={useAI}
                     onCheckedChange={setUseAI}
-                    className="data-[state=checked]:bg-primary"
+                    className="data-[state=checked]:bg-primary scale-75"
                   />
                 </div>
                 <VoiceSearch onResult={handleVoiceResult} />
@@ -77,7 +77,7 @@ const Index = () => {
           </div>
         </div>
 
-        <div className="glass-card rounded-xl p-4 mb-4 w-[80%] mx-auto">
+        <div className="glass-card rounded-xl p-4 mb-4 w-[90%] mx-auto">
           <h2 className="text-xl font-semibold mb-3">Emergency Slots Nearby</h2>
           <EmergencyMap />
         </div>
@@ -86,7 +86,7 @@ const Index = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="glass-card rounded-xl p-4 mb-4 w-[80%] mx-auto"
+          className="glass-card rounded-xl p-4 mb-4 w-[90%] mx-auto"
         >
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold">Available Healthcare Professionals</h2>
