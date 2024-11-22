@@ -50,34 +50,34 @@ const Index = () => {
         <div className="h-[10vh] flex flex-col justify-center">
           <h1 className="text-4xl font-bold text-foreground mb-4">whereis</h1>
           
-          <div className="glass-card rounded-2xl p-4 mb-4">
+          <div className="glass-card rounded-2xl p-4 mb-4 w-[80%] mx-auto">
             <div className="flex flex-col gap-4">
-              <div className="relative flex-1">
+              <div className="relative w-full">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
                 <Input
                   type="text"
                   placeholder={useAI ? "Ask me about finding healthcare providers..." : "Search for healthcare providers..."}
-                  className="pl-10 pr-20 h-14 text-lg"
+                  className="pl-10 h-14 text-lg w-full"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex items-center gap-2">
-                  <div className="flex items-center gap-1">
-                    <Bot className="h-4 w-4" />
-                    <Switch
-                      checked={useAI}
-                      onCheckedChange={setUseAI}
-                      className="data-[state=checked]:bg-primary"
-                    />
-                  </div>
-                  <VoiceSearch onResult={handleVoiceResult} />
+              </div>
+              <div className="flex justify-center items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <Bot className="h-4 w-4" />
+                  <Switch
+                    checked={useAI}
+                    onCheckedChange={setUseAI}
+                    className="data-[state=checked]:bg-primary"
+                  />
                 </div>
+                <VoiceSearch onResult={handleVoiceResult} />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="glass-card rounded-xl p-4 mb-4">
+        <div className="glass-card rounded-xl p-4 mb-4 w-[80%] mx-auto">
           <h2 className="text-xl font-semibold mb-3">Emergency Slots Nearby</h2>
           <EmergencyMap />
         </div>
@@ -86,7 +86,7 @@ const Index = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="glass-card rounded-xl p-4 mb-4"
+          className="glass-card rounded-xl p-4 mb-4 w-[80%] mx-auto"
         >
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold">Available Healthcare Professionals</h2>
