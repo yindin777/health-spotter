@@ -4,7 +4,8 @@
     "output": "dist",
     "environment": {
       "NODE_VERSION": "18"
-    }
+    },
+    "rootDirectory": "/"
   },
   "routes": [
     {
